@@ -1,0 +1,10 @@
+.navbar{
+    display: flex;
+    gap: 12px;
+    align-items: left;
+}
+
+.navbar a {
+  text-decoration: none;
+  padding: 5px 10px;
+}

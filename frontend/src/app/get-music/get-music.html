@@ -1,1 +1,15 @@
-<p>get-music works!</p>
+<form (ngSubmit)="submit()" class="input">
+  <mat-form-field appearance="outline">
+    <mat-label>Link</mat-label>
+    <input
+      matInput
+      placeholder="Ex. youtube/video"
+      [(ngModel)]="link"
+      name="link"
+    >
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">
+    Send
+  </button>
+</form>

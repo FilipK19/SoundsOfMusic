@@ -2,6 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GetMusic } from './get-music';
 
+import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+
 describe('GetMusic', () => {
   let component: GetMusic;
   let fixture: ComponentFixture<GetMusic>;
@@ -21,3 +24,7 @@ describe('GetMusic', () => {
     expect(component).toBeTruthy();
   });
 });
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideHttpClient()]
+};

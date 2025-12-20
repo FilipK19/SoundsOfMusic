@@ -3,12 +3,13 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { DurationPipe } from './duration.pipe';
 
 import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-get-playlist',
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, CommonModule],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, CommonModule, DurationPipe],
   templateUrl: './get-playlist.html',
   styleUrl: './get-playlist.css',
 })

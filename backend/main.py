@@ -69,16 +69,16 @@ def process_video(data: Url):
 
 @app.post("/testYT2")
 def process_video(data: Url):
-    # Output folder
     output_dir = "downloads"
     os.makedirs(output_dir, exist_ok=True)
 
     try:
         ydl_opts = {
             "quiet": True,
-            "skip_download": False,  # DOWNLOAD the file
             "format": "bestaudio/best",
-            "outtmpl": f"{output_dir}/%(title)s.%(ext)s",
+            "outtmpl": f"{output_dir}/%(playlist_title|single)s/%(title)s.%(ext)s",
+            "noplaylist": False,
+
             # Convert to MP3
             "postprocessors": [
                 {
@@ -92,12 +92,34 @@ def process_video(data: Url):
         with YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(data.url, download=True)
 
-        return {
-            "title": info.get("title"),
-            "uploader": info.get("uploader"),
-            "duration": info.get("duration"),
-            "file_saved_as": info.get("title") + ".mp3",
-        }
+        # Playlist
+        if "entries" in info:
+            songs = []
+            total_duration = 0
+
+            for entry in info["entries"]:
+                if not entry:
+                    continue
+
+                duration = entry.get("duration") or 0
+                total_duration += duration
+
+                songs.append({
+                    "title": entry.get("title"),
+                    "duration": duration,
+                })
+
+            return {
+                "type": "playlist",
+                "playlist_title": info.get("title"),
+                "creator": info.get("uploader"),
+                "songs": songs,
+                "total_duration": total_duration,
+                "videos": len(songs),
+            }
+
+    
+
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

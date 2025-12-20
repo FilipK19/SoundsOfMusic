@@ -9,13 +9,25 @@
 
 <p *ngIf="loading">Downloading...</p>
 
-<div *ngIf="result">
-  <h3>✅ Download successful</h3>
-  <p><b>Title:</b> {{ result.title }}</p>
-  <p><b>Uploader:</b> {{ result.uploader }}</p>
-  <p><b>Duration:</b> {{ result.duration }} seconds</p>
-  <p><b>Saved as:</b> {{ result.file_saved_as }}</p>
-</div>
+  <div *ngIf="result && result.type === 'playlist'">
+    <h3>✅ Playlist downloaded</h3>
+
+    <p><b>Playlist:</b> {{ result.playlist_title }}</p>
+    <p><b>Creator:</b> {{ result.creator }}</p>
+    <p><b>Total songs:</b> {{ result.videos }}</p>
+    <p><b>Total listening time:</b> {{ result.total_duration | duration }}</p>
+
+    <hr />
+
+    <h4>Songs</h4>
+    <ul>
+      <li *ngFor="let song of result.songs; let i = index">
+        {{ i + 1 }}.
+        <b>{{ song.title }}</b>
+        — {{ song.duration | duration }}
+      </li>
+    </ul>
+  </div>
 
 <p *ngIf="error" style="color:red">
   ❌ {{ error }}

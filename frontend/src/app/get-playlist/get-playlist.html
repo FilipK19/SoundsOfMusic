@@ -1,1 +1,23 @@
-<p>get-playlist works!</p>
+<div class="input">
+<input
+  type="text"
+  [(ngModel)]="url"
+  placeholder="Paste Playlist URL"
+/>
+
+<button (click)="download()">Download Playlist MP3</button>
+
+<p *ngIf="loading">Downloading...</p>
+
+<div *ngIf="result">
+  <h3>✅ Download successful</h3>
+  <p><b>Title:</b> {{ result.title }}</p>
+  <p><b>Uploader:</b> {{ result.uploader }}</p>
+  <p><b>Duration:</b> {{ result.duration }} seconds</p>
+  <p><b>Saved as:</b> {{ result.file_saved_as }}</p>
+</div>
+
+<p *ngIf="error" style="color:red">
+  ❌ {{ error }}
+</p>
+</div>

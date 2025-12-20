@@ -13,7 +13,6 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './get-music.css',
 })
 export class GetMusic {
-  link = '';
   url = '';
   result: any = null;
   loading = false;
@@ -21,14 +20,6 @@ export class GetMusic {
 
   constructor(private http: HttpClient) {}
 
-  submit() {
-  this.http.post<{ result: string }>(
-    'http://127.0.0.1:8000/test',
-    { text: this.link }
-  ).subscribe(res => {
-    alert(res.result);
-  });
-}
 
   download() {
     this.loading = true;

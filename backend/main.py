@@ -17,8 +17,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class TextIn(BaseModel):
-    text:str
 
 class Url(BaseModel):
     url:str
@@ -28,12 +26,6 @@ class Url(BaseModel):
 async def root():
     return {"message": "Hello World"}
 
-
-
-@app.post("/test")
-async def test(data: TextIn):
-    modified = data.text + "test"
-    return {"result": data.text}
 
 @app.post("/testYT")
 def process_video(data: Url):

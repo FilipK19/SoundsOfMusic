@@ -1,20 +1,4 @@
-<form (ngSubmit)="submit()" class="input">
-  <mat-form-field appearance="outline">
-    <mat-label>Link</mat-label>
-    <input
-      matInput
-      placeholder="Ex. youtube/video"
-      [(ngModel)]="link"
-      name="link"
-    >
-  </mat-form-field>
-
-  <button mat-raised-button color="primary" type="submit">
-    Send
-  </button>
-</form>
-
-
+<div class="input">
 <input
   type="text"
   [(ngModel)]="url"
@@ -36,3 +20,4 @@
 <p *ngIf="error" style="color:red">
   ❌ {{ error }}
 </p>
+</div>

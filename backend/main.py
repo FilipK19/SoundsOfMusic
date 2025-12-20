@@ -41,6 +41,7 @@ def process_video(data: Url):
             "skip_download": False,  # DOWNLOAD the file
             "format": "bestaudio/best",
             "outtmpl": f"{output_dir}/%(title)s.%(ext)s",
+            "noplaylist": True,
 
             # Convert to MP3
             "postprocessors": [

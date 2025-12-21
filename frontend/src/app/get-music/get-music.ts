@@ -27,7 +27,8 @@ export class GetMusic {
     this.result = null;
 
     this.http.post<any>('http://127.0.0.1:8000/testYT', {
-      url: this.url
+      url: this.url,
+      mode: 'music'
     }).subscribe({
       next: res => {
         this.result = res;

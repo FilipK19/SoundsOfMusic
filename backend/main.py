@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from yt_dlp import YoutubeDL
+from typing import Literal
 import os
 
 app = FastAPI()
@@ -20,61 +21,26 @@ app.add_middleware(
 
 class Url(BaseModel):
     url:str
+    mode: Literal["music", "playlist"]
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
 
-
-@app.post("/testYT")
-def process_video(data: Url):
-    #url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-
-    # Output folder
+def get_music_playlist(url: str, mode: str) -> dict:
     output_dir = "downloads"
     os.makedirs(output_dir, exist_ok=True)
 
-    try:
-        ydl_opts = {
-            "quiet": True,
-            "skip_download": False,  # DOWNLOAD the file
-            "format": "bestaudio/best",
-            "outtmpl": f"{output_dir}/%(title)s.%(ext)s",
-            "noplaylist": True,
-
-            # Convert to MP3
-            "postprocessors": [
-                {
-                    "key": "FFmpegExtractAudio",
-                    "preferredcodec": "mp3",
-                    "preferredquality": "192",
-                }
-            ],
-        }
-
-        with YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(data.url, download=True)
-
-        return {
-            "title": info.get("title"),
-            "uploader": info.get("uploader"),
-            "duration": info.get("duration"),
-            "file_saved_as": info.get("title") + ".mp3",
-        }
-
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    
-def download_music(url: str) -> dict:
-    output_dir = "downloads"
-    os.makedirs(output_dir, exist_ok=True)
+    is_music = mode == "music"
 
     ydl_opts = {
         "quiet": True,
+        "skip_download": False,
         "format": "bestaudio/best",
-        "outtmpl": f"{output_dir}/%(playlist_title|single)s/%(title)s.%(ext)s",
-        "noplaylist": False,
+        "noplaylist": is_music,  # 🔥 KEY LINE
+        "outtmpl": (
+            f"{output_dir}/%(title)s.%(ext)s"
+            if is_music
+            else f"{output_dir}/%(playlist_title|single)s/%(title)s.%(ext)s"
+        ),
         "postprocessors": [
             {
                 "key": "FFmpegExtractAudio",
@@ -87,44 +53,48 @@ def download_music(url: str) -> dict:
     with YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True)
 
-    # Playlist case
-    if "entries" in info:
-        songs = []
-        total_duration = 0
-
-        for entry in info["entries"]:
-            if not entry:
-                continue
-
-            duration = entry.get("duration") or 0
-            total_duration += duration
-
-            songs.append({
-                "title": entry.get("title"),
-                "duration": duration,
-            })
-
+    # MUSIC (single)
+    if is_music:
         return {
-            "type": "playlist",
-            "playlist_title": info.get("title"),
+            "type": "music",
+            "title": info.get("title"),
+            "duration": info.get("duration"),
             "creator": info.get("uploader"),
-            "songs": songs,
-            "total_duration": total_duration,
-            "videos": len(songs),
         }
 
-    # Single video fallback
+    # PLAYLIST
+    songs = []
+    total_duration = 0
+
+    for entry in info.get("entries", []):
+        if not entry:
+            continue
+
+        duration = entry.get("duration") or 0
+        total_duration += duration
+
+        songs.append({
+            "title": entry.get("title"),
+            "duration": duration,
+        })
+
     return {
-        "type": "single",
-        "title": info.get("title"),
-        "duration": info.get("duration"),
+        "type": "playlist",
+        "playlist_title": info.get("title"),
         "creator": info.get("uploader"),
+        "songs": songs,
+        "total_duration": total_duration,
+        "videos": len(songs),
     }
 
 
-@app.post("/testYT2")
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+@app.post("/testYT")
 def process_video(data: Url):
     try:
-        return download_music(data.url)
+        return get_music_playlist(data.url, data.mode)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

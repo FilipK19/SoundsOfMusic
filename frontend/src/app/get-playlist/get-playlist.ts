@@ -27,8 +27,9 @@ export class GetPlaylist {
     this.error = '';
     this.result = null;
 
-    this.http.post<any>('http://127.0.0.1:8000/testYT2', {
-      url: this.url
+    this.http.post<any>('http://127.0.0.1:8000/testYT', {
+      url: this.url,
+      mode: 'playlist'
     }).subscribe({
       next: res => {
         this.result = res;

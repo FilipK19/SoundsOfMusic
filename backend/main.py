@@ -66,60 +66,65 @@ def process_video(data: Url):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
-
-@app.post("/testYT2")
-def process_video(data: Url):
+def download_music(url: str) -> dict:
     output_dir = "downloads"
     os.makedirs(output_dir, exist_ok=True)
 
-    try:
-        ydl_opts = {
-            "quiet": True,
-            "format": "bestaudio/best",
-            "outtmpl": f"{output_dir}/%(playlist_title|single)s/%(title)s.%(ext)s",
-            "noplaylist": False,
+    ydl_opts = {
+        "quiet": True,
+        "format": "bestaudio/best",
+        "outtmpl": f"{output_dir}/%(playlist_title|single)s/%(title)s.%(ext)s",
+        "noplaylist": False,
+        "postprocessors": [
+            {
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": "mp3",
+                "preferredquality": "192",
+            }
+        ],
+    }
 
-            # Convert to MP3
-            "postprocessors": [
-                {
-                    "key": "FFmpegExtractAudio",
-                    "preferredcodec": "mp3",
-                    "preferredquality": "192",
-                }
-            ],
+    with YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(url, download=True)
+
+    # Playlist case
+    if "entries" in info:
+        songs = []
+        total_duration = 0
+
+        for entry in info["entries"]:
+            if not entry:
+                continue
+
+            duration = entry.get("duration") or 0
+            total_duration += duration
+
+            songs.append({
+                "title": entry.get("title"),
+                "duration": duration,
+            })
+
+        return {
+            "type": "playlist",
+            "playlist_title": info.get("title"),
+            "creator": info.get("uploader"),
+            "songs": songs,
+            "total_duration": total_duration,
+            "videos": len(songs),
         }
 
-        with YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(data.url, download=True)
-
-        # Playlist
-        if "entries" in info:
-            songs = []
-            total_duration = 0
-
-            for entry in info["entries"]:
-                if not entry:
-                    continue
-
-                duration = entry.get("duration") or 0
-                total_duration += duration
-
-                songs.append({
-                    "title": entry.get("title"),
-                    "duration": duration,
-                })
-
-            return {
-                "type": "playlist",
-                "playlist_title": info.get("title"),
-                "creator": info.get("uploader"),
-                "songs": songs,
-                "total_duration": total_duration,
-                "videos": len(songs),
-            }
-
-    
+    # Single video fallback
+    return {
+        "type": "single",
+        "title": info.get("title"),
+        "duration": info.get("duration"),
+        "creator": info.get("uploader"),
+    }
 
 
+@app.post("/testYT2")
+def process_video(data: Url):
+    try:
+        return download_music(data.url)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

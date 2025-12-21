@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
@@ -19,7 +19,7 @@ export class GetPlaylist {
   loading = false;
   error = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
 
   download() {
@@ -34,6 +34,7 @@ export class GetPlaylist {
       next: res => {
         this.result = res;
         this.loading = false;
+        this.cdr.detectChanges();
         alert('Download completed!');
       },
       error: err => {

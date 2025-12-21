@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel
 
 from yt_dlp import YoutubeDL
@@ -35,7 +36,7 @@ def get_music_playlist(url: str, mode: str) -> dict:
         "quiet": True,
         "skip_download": False,
         "format": "bestaudio/best",
-        "noplaylist": is_music,  # 🔥 KEY LINE
+        "noplaylist": is_music,
         "outtmpl": (
             f"{output_dir}/%(title)s.%(ext)s"
             if is_music
@@ -93,8 +94,13 @@ async def root():
     return {"message": "Hello World"}
 
 @app.post("/testYT")
-def process_video(data: Url):
+async def process_video(data: Url):
     try:
-        return get_music_playlist(data.url, data.mode)
+        result = await run_in_threadpool(
+            get_music_playlist,
+            data.url,
+            data.mode
+        )
+        return result
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

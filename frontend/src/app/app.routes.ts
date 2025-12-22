@@ -1,5 +1,4 @@
-import { Routes, RouterModule } from '@angular/router';
-import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
 
 import { Home } from './home/home';
 import { GetMusic } from './get-music/get-music';
@@ -13,8 +12,4 @@ export const routes: Routes = [
     {path:'library', component: Library}
 ];
 
-@NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
-})
 export class AppRoutingModule {}

@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.concurrency import run_in_threadpool
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from yt_dlp import YoutubeDL
@@ -9,6 +10,7 @@ import os
 
 app = FastAPI()
 
+DOWNLOAD_DIR = "downloads"
 
 # enables communication with the frontend
 app.add_middleware(
@@ -19,6 +21,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.mount("/downloads", StaticFiles(directory="downloads"), name="downloads")
 
 class Url(BaseModel):
     url:str
@@ -104,3 +107,15 @@ async def process_video(data: Url):
         return result
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@app.get("/music")
+def list_music():
+    files = []
+    if os.path.exists(DOWNLOAD_DIR):
+        for file in os.listdir(DOWNLOAD_DIR):
+            if file.endswith(".mp3"):
+                files.append({
+                    "name": file,
+                    "url": f"/downloads/{file}"
+                })
+    return files

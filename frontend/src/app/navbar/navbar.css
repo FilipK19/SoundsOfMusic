@@ -2,9 +2,26 @@
     display: flex;
     gap: 12px;
     align-items: left;
+
+  background: conic-gradient(
+    from -89deg,
+    #800080,    /* Start with Purple */
+    #FFEA00 1%,
+    #FAFA33 49%, /* Transition to Yellow by a quarter of the way */
+    #FFFDD0 50%, /* Mid-Yellow */
+    #DA70D6 51%, /* Soft Purple/Orchid (helps blend Yellow to Dark Purple) */
+    #800080 52%,
+    #800080 60%,
+    #800080 85%   /* End with the EXACT same Purple to remove the jagged line */
+  );
+  filter: blur(0.4px);
 }
 
 .navbar a {
   text-decoration: none;
   padding: 5px 10px;
+}
+
+:host {
+  font-family: 'Comfortaa', sans-serif;
 }

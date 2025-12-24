@@ -23,3 +23,37 @@ h1, p {
     color: white;
 }
 
+.logo {
+  z-index: 2; /* Logo on top */
+}
+
+.logo-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.logo-glow {
+  margin-top: 50px;
+  position: absolute;
+  width: 500px; 
+  height: 500px;
+  border-radius: 50%;
+  
+  /* Conic gradient */
+  background: conic-gradient(
+    from -30deg,
+    #BF40BF 15%, 
+    #DA70D6 40%, 
+    #FFFDD0 50%, 
+    #FFFF00 60%, 
+    #FAFA33 85%
+  );
+  
+  /* Background blure */
+  filter: blur(50px); 
+  opacity: 0.3;
+  z-index: -1;
+}

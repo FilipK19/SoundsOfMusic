@@ -1,6 +1,12 @@
 <nav class="navbar">
-        <a routerLink="/">Home</a>
-        <a routerLink="/getmusic">getMusic</a>
-        <a routerLink="/getplaylist">getPlaylist</a>
-        <a routerLink="/library">Library</a>
+  <a
+  routerLink="/"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+>
+  Home
+</a>
+  <a routerLink="/getmusic" routerLinkActive="active">getMusic</a>
+  <a routerLink="/getplaylist" routerLinkActive="active">getPlaylist</a>
+  <a routerLink="/library" routerLinkActive="active">Library</a>
 </nav>

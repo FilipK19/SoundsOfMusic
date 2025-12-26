@@ -2,6 +2,7 @@
     display: flex;
     gap: 12px;
     align-items: left;
+    height: 35px;
 
   background: conic-gradient(
     from -89deg,
@@ -19,8 +20,9 @@
 
 .navbar a {
   text-decoration: none;
-  padding: 5px 10px;
+  padding: 8px 18px;
   color: #FFFF00;
+  font-size: 16px;
 }
 
 .navbar a.active {

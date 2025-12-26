@@ -1,8 +1,8 @@
 .navbar{
-    display: flex;
-    gap: 12px;
-    align-items: left;
-    height: 35px;
+  position: relative;
+  display: flex;
+  gap: 12px;
+  height: 35px;
 
   background: conic-gradient(
     from -89deg,
@@ -15,19 +15,44 @@
     #800080 60%,
     #800080 85%
   );
-  filter: blur(0.4px);
 }
 
 .navbar a {
+  position: relative;
   text-decoration: none;
   padding: 8px 18px;
   color: #FFFF00;
   font-size: 16px;
+
+  border-radius: 8px;
 }
 
-.navbar a.active {
-  color: #ffffff;
-  font-weight: 600;
+/* text */
+.navbar a span:last-child {
+  position: relative;
+  z-index: 2;
+}
+
+/* blur layer */
+.navbar a .selected {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from -30deg,
+    #BF40BF 15%, 
+    #DA70D6 40%, 
+    #FFFDD0 50%, 
+    #FFFF00 60%, 
+    #FAFA33 85%
+  );
+  filter: blur(15px);
+  opacity: 0;
+  z-index: 1;
+  transition: opacity 0.25s ease;
+}
+
+.navbar a.active .selected {
+  opacity: 0.8;
 }
 
 :host {

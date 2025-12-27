@@ -57,18 +57,3 @@ h1, p {
   opacity: 0.3;
   z-index: -1;
 }
-
-.gradient-text {
-  background: linear-gradient(
-    50deg,
-    #800080 1%,   /* purple start */
-    #BF40BF 25%,
-    #FFFDD0 50%,  /* cream */
-    #FAFA33 85%,
-    #FFFF00 100%  /* yellow end */
-  );
-
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; /* makes text show gradient */
-}

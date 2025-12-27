@@ -92,7 +92,7 @@ button {
   
   /* Background blure */
   filter: blur(50px); 
-  opacity: 0.3;
+  opacity: 0.2;
   z-index: 0;
   margin-left: -20px;
 }

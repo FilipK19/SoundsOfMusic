@@ -34,7 +34,9 @@ export class GetMusic {
         this.result = res;
         this.loading = false;
         this.cdr.detectChanges();
-        alert('Download completed!');
+        requestAnimationFrame(() => {
+          alert('Download completed!');
+        });
       },
       error: err => {
         this.loading = false;

@@ -1,3 +1,34 @@
-.input {
-    padding: 50px;
+.music-input {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin-top: -35px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+input {
+  margin-bottom: 35px;
+  width: 35%;
+  padding: 14px 25px 14px 25px;
+  font-size: 16px;
+
+  color: #ffffff;
+  background-color: #999999;
+
+  border: 2px solid #BF40BF;
+  border-radius: 32px;
+
+  outline: none;
+}
+
+input::placeholder {
+  color: #fff;
+  opacity: 0.5;
 }

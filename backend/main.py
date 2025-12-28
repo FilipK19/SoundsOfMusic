@@ -111,11 +111,18 @@ async def process_video(data: Url):
 @app.get("/music")
 def list_music():
     files = []
+
     if os.path.exists(DOWNLOAD_DIR):
-        for file in os.listdir(DOWNLOAD_DIR):
-            if file.endswith(".mp3"):
-                files.append({
-                    "name": file,
-                    "url": f"/downloads/{file}"
-                })
+        # Walk through all files/folders recursively
+        for root, dirs, filenames in os.walk(DOWNLOAD_DIR):
+            for file in filenames:
+                if file.endswith(".mp3"):
+                    rel_dir = os.path.relpath(root, DOWNLOAD_DIR)
+                    playlist = None if rel_dir == "." else rel_dir
+
+                    files.append({
+                        "name": file,
+                        "url": f"/downloads/{rel_dir}/{file}" if playlist else f"/downloads/{file}",
+                        "playlist": playlist
+                    })
     return files

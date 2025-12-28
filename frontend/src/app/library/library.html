@@ -10,9 +10,32 @@
 <h2>Downloaded Music</h2>
 
 <div *ngIf="songs.length === 0">Loading...</div>
-<ul class="song-list" *ngIf="songs.length > 0">
-  <li *ngFor="let song of songs" class="song-item">
-    <span class="song-name">{{ getDisplayName(song.name) }}</span>
-    <audio controls [src]="'http://localhost:8000' + song.url"></audio>
-  </li>
-</ul>
+
+<div class="song-list" *ngIf="songs.length > 0">
+  <ng-container *ngFor="let group of groupedSongs">
+
+    <!-- Solo songs -->
+    <ng-container *ngIf="group.type === 'solo'">
+      <div class="solo-grid">
+        <div class="song-item" *ngFor="let song of group.songs">
+          <span class="song-name">{{ getDisplayName(song.name) }}</span>
+          <audio controls [src]="'http://localhost:8000' + song.url"></audio>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Playlist songs -->
+    <ng-container *ngIf="group.type === 'playlist'">
+      <div class="playlist-box">
+        <h3 class="playlist-title">{{ group.name }}</h3>
+        <div class="playlist-grid">
+          <div class="song-item" *ngFor="let song of group.songs">
+            <span class="song-name">{{ getDisplayName(song.name) }}</span>
+            <audio controls [src]="'http://localhost:8000' + song.url"></audio>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+  </ng-container>
+</div>

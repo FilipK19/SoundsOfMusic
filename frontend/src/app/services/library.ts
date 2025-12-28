@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 export interface Song {
   name: string;
   url: string;
+  playlist?: string; // optional
 }
 
 @Injectable({

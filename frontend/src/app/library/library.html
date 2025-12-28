@@ -7,6 +7,8 @@
   </h1>
 </div>
 
+<h2>Downloaded Music</h2>
+
 <div *ngIf="songs.length === 0">Loading...</div>
 <ul class="song-list" *ngIf="songs.length > 0">
   <li *ngFor="let song of songs" class="song-item">

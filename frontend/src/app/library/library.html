@@ -1,7 +1,16 @@
+<div class="mini-logo">
+  <div class="mini-logo-glow"></div>
+  <img src="/logo.svg" alt="Logo" class="logo">
+
+  <h1 class="logo-name">
+    The sound's of <span class="gradient-text">Music</span>
+  </h1>
+</div>
+
 <div *ngIf="songs.length === 0">Loading...</div>
-<ul *ngIf="songs.length > 0">
-  <li *ngFor="let song of songs">
-    {{ song.name }}
+<ul class="song-list" *ngIf="songs.length > 0">
+  <li *ngFor="let song of songs" class="song-item">
+    <span class="song-name">{{ song.name }}</span>
     <audio controls [src]="'http://localhost:8000' + song.url"></audio>
   </li>
 </ul>

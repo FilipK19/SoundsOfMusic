@@ -18,3 +18,31 @@ html, body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; /* makes text show gradient */
 }
+
+.mini-logo-glow {
+  position: absolute;
+  width: 200px; 
+  height: 200px;
+  border-radius: 50%;
+  
+  /* Conic gradient */
+  background: conic-gradient(
+    from -30deg,
+    #BF40BF 15%, 
+    #DA70D6 40%, 
+    #FFFDD0 50%, 
+    #FFFF00 60%, 
+    #FAFA33 85%
+  );
+  
+  /* Background blure */
+  filter: blur(50px); 
+  opacity: 0.2;
+  z-index: 0;
+  margin-left: -20px;
+}
+
+.mini-logo {
+    position: relative;
+    padding-left: 20px;
+}

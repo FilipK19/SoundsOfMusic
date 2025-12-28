@@ -1,11 +1,20 @@
-<div class="input">
-<input
-  type="text"
-  [(ngModel)]="url"
-  placeholder="Paste Playlist URL"
-/>
+<div class="mini-logo">
+  <div class="mini-logo-glow"></div>
+  <img src="/logo.svg" alt="Logo" class="logo">
 
-<button (click)="download()">Download Playlist MP3</button>
+  <h1 class="logo-name">
+    The sound's of <span class="gradient-text">Music</span>
+  </h1>
+</div>
+
+<div class="music-input">
+  <h1>Enter Playlist link:</h1>
+  <div class="input-wrapper">
+    <img src="/playlist_logo.svg" alt="Logo" class="playlist-logo">
+    <input type="text" [(ngModel)]="url" placeholder="Ex. youtube.com/watch?v=dQw4w9WgXcQ"/>
+  </div>
+
+<button (click)="download()">Download Playlist</button>
 
 <p *ngIf="loading">Downloading...</p>
 

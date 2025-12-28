@@ -24,11 +24,19 @@ h2 {
   color: #fff;
   display: flex;
   justify-content: center;
+  padding-top: 25px;
 }
 
 .song-list {
   list-style: none;
   padding-top: 50px;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  gap: 20px; /* space between cards */
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .song-item {
@@ -57,6 +65,7 @@ audio {
   border: 2px solid #ffffff; /* Your purple border */
   border-radius: 320px;
   outline: none;
+  width: 340px;
 }
 
 audio::-webkit-media-controls-play-button {
@@ -65,4 +74,11 @@ audio::-webkit-media-controls-play-button {
 
 :host {
   font-family: 'Comfortaa', sans-serif;
+}
+
+/* One column on small screens */
+@media (max-width: 900px) {
+  .song-list {
+    grid-template-columns: 1fr;
+  }
 }

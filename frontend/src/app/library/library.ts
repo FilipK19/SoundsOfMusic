@@ -24,4 +24,8 @@ export class Library implements OnInit {
       this.cdr.detectChanges();
     });
   }
+
+  getDisplayName(name: string): string {
+  return name.replace(/\.[^/.]+$/, '');
+}
 }

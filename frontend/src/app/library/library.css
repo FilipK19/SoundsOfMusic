@@ -40,7 +40,6 @@ h2 {
 .song-item {
   background: #999999;
   border-radius: 100px;
-  padding: 10px;
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;

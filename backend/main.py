@@ -63,7 +63,8 @@ def get_music_playlist(url: str, mode: str) -> dict:
             "type": "music",
             "title": info.get("title"),
             "duration": info.get("duration"),
-            "creator": info.get("uploader"),
+            "uploader": info.get("uploader"),
+            "file_saved_as": f"{info.get('title')}.mp3",
         }
 
     # PLAYLIST

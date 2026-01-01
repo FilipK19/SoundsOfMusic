@@ -66,6 +66,17 @@ button {
   border: 1px solid #800080;
   border-radius: 32px;
   outline: none;
+
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.95);
 }
 
 .logo {

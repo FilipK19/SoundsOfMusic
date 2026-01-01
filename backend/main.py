@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.concurrency import run_in_threadpool
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+from urllib.parse import urlparse
 
 from yt_dlp import YoutubeDL
 from typing import Literal
@@ -92,6 +93,10 @@ def get_music_playlist(url: str, mode: str) -> dict:
         "videos": len(songs),
     }
 
+def is_valid_url(url: str) -> bool:
+    parsed = urlparse(url)
+    return all([parsed.scheme, parsed.netloc])
+
 
 @app.get("/")
 async def root():
@@ -99,6 +104,9 @@ async def root():
 
 @app.post("/testYT")
 async def process_video(data: Url):
+    if not is_valid_url(data.url):
+        raise HTTPException(status_code=400, detail="Invalid URL")
+
     try:
         result = await run_in_threadpool(
             get_music_playlist,

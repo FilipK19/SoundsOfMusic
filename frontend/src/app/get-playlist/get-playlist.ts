@@ -18,6 +18,7 @@ export class GetPlaylist {
   result: any = null;
   loading = false;
   error = '';
+  invalidUrl = '';
 
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
@@ -41,7 +42,9 @@ export class GetPlaylist {
       },
       error: err => {
         this.loading = false;
-        this.error = err.error?.detail || 'Something went wrong';
+        this.invalidUrl = this.url;
+        this.error = `"${this.invalidUrl}" is not a valid URL`;
+        this.cdr.detectChanges();
       }
     });
   }

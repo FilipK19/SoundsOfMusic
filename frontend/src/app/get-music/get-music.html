@@ -11,7 +11,7 @@
   <h1>Enter Music link:</h1>
   <div class="input-wrapper">
     <img src="/music_logo.svg" alt="Logo" class="music-logo">
-    <input type="text" [(ngModel)]="url" placeholder="Ex. youtube.com/watch?v=dQw4w9WgXcQ"/>
+    <input type="text" [(ngModel)]="url" (ngModelChange)="error = ''" placeholder="Ex. youtube.com/watch?v=dQw4w9WgXcQ"/>
   </div>
 
 <button (click)="download()">Download MP3</button>
@@ -29,6 +29,5 @@
   </div>
 
   <p *ngIf="error" style="color:red">
-    ❌ {{ error }}
-  </p>
+    ❌ {{ error }} </p>
 </div>

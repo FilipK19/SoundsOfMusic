@@ -28,7 +28,6 @@ class Url(BaseModel):
     url:str
     mode: Literal["music", "playlist"]
 
-
 def get_music_playlist(url: str, mode: str) -> dict:
     output_dir = "downloads"
     os.makedirs(output_dir, exist_ok=True)

@@ -22,7 +22,6 @@ export class GetPlaylist {
 
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
-
   download() {
     this.loading = true;
     this.error = '';
